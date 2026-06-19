@@ -13,9 +13,11 @@ public class LoginPage {
      *
      */
     private WebDriver driver;
-    private By emailField = By.cssSelector("input[name='email']");
-    private By passwordField = By.cssSelector("input[name='password']");
+    private By emailField = By.id("email");
+    private By passwordField = By.id("password");
     private By submitButton = By.xpath("//button[text()='Login']");
+    private By registerButton = By.cssSelector("a[href='/en/register']");
+
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;

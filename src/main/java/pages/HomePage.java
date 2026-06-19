@@ -8,9 +8,18 @@ public class HomePage {
     public HomePage(WebDriver driver){this.driver=driver;}
 
 //Moving to Login / Logout icon
+
 public  LoginPage clickProfileIcon(){
-    driver.findElement(By.id("myAccount")).click();
+    By loginIcon = By.cssSelector("a[href='/en/login']");
+   driver.findElement(loginIcon).click();
     return new LoginPage(driver);
+}
+//Moving to Add Post Button
+
+public AddPostPage clickAddPost(){
+        By addPostIcon = By.xpath("//button[normalize-space()='Add Post']");
+        driver.findElement(addPostIcon).click();
+        return new AddPostPage(driver);
 }
 
     private void clickLink(String linkText){

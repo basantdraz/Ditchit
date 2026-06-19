@@ -23,16 +23,18 @@ public class LoginTest extends BaseTests {
     @Test
     public void loginTest()  {
         HomePage homePage = new HomePage(driver);
+
         LoginPage loginPage = homePage.clickProfileIcon();
-        loginPage.setEmail("namitest@gmail.com");
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='email']")));
+
+        loginPage.setEmail("namitest2@gmail.com");
         loginPage.setPassword("Nami_12");
         loginPage.clickSubmitButton();
-
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.urlToBe("https://ditchit.com/"));
+        wait.until(ExpectedConditions.urlToBe("https://ditchit.com/en"));
 
         String actualUrl = driver.getCurrentUrl();
-        assertEquals(actualUrl, "https://ditchit.com/", "Login Failed");
+        assertEquals(actualUrl, "https://ditchit.com/en", "Login Failed");
     }
 
     /*Test login with Invalid email
@@ -43,16 +45,16 @@ public class LoginTest extends BaseTests {
     public void failedEmailTest()  {
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.clickProfileIcon();
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='email']")));
         loginPage.setEmail("namitest12345@gmail.com");
         loginPage.setPassword("Nami_12");
         loginPage.clickSubmitButton();
 
         By toastMessage = By.cssSelector("div.toastify");
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-
         WebElement toast = wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessage));
         String messageText = toast.getText();
-        assertTrue(messageText.contains("The selected email is invalid."), "Invalid login message not displayed");
+        assertTrue(messageText.contains("No user was found with these credentials"), "Invalid login message not displayed");
 
     }
 
@@ -64,16 +66,17 @@ public class LoginTest extends BaseTests {
     public void failedPasswordTest()  {
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.clickProfileIcon();
-        loginPage.setEmail("namitest@gmail.com");
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='email']")));
+        loginPage.setEmail("namitest2@gmail.com");
         loginPage.setPassword("Nami1222");
         loginPage.clickSubmitButton();
 
         By toastMessage = By.cssSelector("div.toastify");
-        WebDriverWait wait = new WebDriverWait(driver, 10);
 
         WebElement toast = wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessage));
         String messageText = toast.getText();
-        assertTrue(messageText.contains("The password is wrong"), "Wrong password message not displayed");
+        assertTrue(messageText.contains("No user was found with these credentials"), "Wrong password message not displayed");
         toast.findElement(By.cssSelector("button.toast-close")).click();
 
     }
@@ -84,6 +87,8 @@ public class LoginTest extends BaseTests {
     public void blankEmailTest()  {
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.clickProfileIcon();
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='email']")));
         loginPage.clickSubmitButton();
         WebElement emailField = driver.findElement(By.cssSelector("input[name='email']"));
 
@@ -99,6 +104,8 @@ public class LoginTest extends BaseTests {
     public void blankPasswordTest()  {
         HomePage homePage = new HomePage(driver);
         LoginPage loginPage = homePage.clickProfileIcon();
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[name='email']")));
         loginPage.setEmail("namitest@gmail.com");
         loginPage.clickSubmitButton();
         WebElement passwordField = driver.findElement(By.cssSelector("input[name='password']"));
